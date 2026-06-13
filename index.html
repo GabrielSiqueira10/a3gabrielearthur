@@ -1,154 +1,379 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoDenúncia - Sistema de Denúncias</title>
+    <title>Sistema de Denúncias</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background-color: #f4f7f6;
-            margin: 0;
-            padding: 0;
-            color: #333;
+        :root {
+            --primary-color: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-color: #1f2937;
+            --border-color: #e5e7eb;
+            --input-border: #d1d5db;
         }
 
-        /* Menu de Navegação Superior */
-        .navbar {
-            background-color: #2c3e50;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
             display: flex;
             justify-content: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 700px;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #111827;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background: var(--border-color);
+            margin: 20px 0;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 25px;
         }
 
         .tab-btn {
+            flex: 1;
+            padding: 12px;
             background: none;
             border: none;
-            color: #bdc3c7;
-            padding: 15px 25px;
             font-size: 16px;
+            font-weight: 600;
+            color: #6b7280;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-weight: 500;
+            text-align: center;
         }
 
         .tab-btn:hover {
-            color: #fff;
-            background-color: #34495e;
+            color: var(--primary-color);
         }
 
         .tab-btn.active {
-            color: #fff;
-            background-color: #28a745; /* Cor verde para destacar o foco ecológico */
-            font-weight: bold;
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--primary-color);
+            margin-bottom: -2px;
         }
 
-        /* Container Principal */
-        .container {
-            max-width: 700px;
-            margin: 30px auto;
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
-
-        /* Gerenciamento de Exibição das Abas */
         .tab-content {
             display: none;
         }
 
         .tab-content.active {
             display: block;
-            animation: fadeIn 0.4s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        h2 {
-            margin-top: 0;
-            border-bottom: 2px solid #28a745;
-            padding-bottom: 8px;
-            color: #2c3e50;
         }
 
         .form-group {
-            margin-bottom: 18px;
+            margin-bottom: 15px;
+        }
+
+        .auth-box {
+            background: #f9fafb;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+
+        .auth-box strong {
+            font-size: 14px;
+            display: block;
+            margin-bottom: 10px;
+            color: #374151;
         }
 
         label {
             display: block;
             margin-bottom: 6px;
-            font-weight: 600;
-            color: #4a5568;
+            font-weight: 500;
+            font-size: 14px;
         }
 
-        input[type="text"], input[type="password"], textarea {
+        input[type="text"],
+        input[type="password"],
+        textarea {
             width: 100%;
             padding: 10px;
-            box-sizing: border-box;
-            border: 1px solid #cbd5e1;
+            border: 1px solid var(--input-border);
             border-radius: 6px;
+            box-sizing: border-box;
             font-size: 14px;
             transition: border-color 0.2s;
         }
 
-        input[type="text"]:focus, input[type="password"]:focus, textarea:focus {
+        input:focus,
+        textarea:focus {
             outline: none;
-            border-color: #28a745;
+            border-color: var(--primary-color);
         }
 
-        input[type="file"] {
-            padding: 5px 0;
+        textarea {
+            resize: vertical;
+            height: 100px;
         }
 
-        button.submit-btn {
-            background-color: #28a745;
+        button[type="submit"],
+        .refresh-btn {
+            background-color: var(--primary-color);
             color: white;
             padding: 12px 20px;
             border: none;
             border-radius: 6px;
             cursor: pointer;
             font-size: 16px;
-            font-weight: bold;
+            font-weight: 500;
             width: 100%;
-            transition: background 0.2s;
+            transition: background 0.2s ease;
         }
 
-        button.submit-btn:hover {
-            background-color: #218838;
+        button[type="submit"]:hover,
+        .refresh-btn:hover {
+            background-color: var(--primary-hover);
         }
 
-        button.blue-btn { background-color: #007bff; }
-        button.blue-btn:hover { background-color: #0056b3; }
-
-        button.refresh-btn {
-            background-color: #6c757d;
-            color: white;
-            padding: 8px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-bottom: 15px;
+        .header-inline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
         }
-        button.refresh-btn:hover { background-color: #5a6268; }
 
-        /* Cards das denúncias */
         .report-card {
-            background: #f8fafc;
+            background: #f9fafb;
+            border: 1px solid var(--border-color);
             padding: 15px;
+            border-radius: 8px;
             margin-bottom: 15px;
+        }
+
+        .report-card h4 {
+            margin: 0 0 8px 0;
+            color: #374151;
+        }
+
+        .report-meta {
+            font-size: 12px;
+            color: #9ca3af;
+            margin-bottom: 8px;
+        }
+
+        .report-file-info {
+            font-size: 12px;
+            color: #4b5563;
+            margin-top: 10px;
+            background: #eef2f6;
+            padding: 6px 10px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .message {
+            padding: 12px;
             border-radius: 6px;
-            border-left: 5px solid #e53e3e; /* Vermelho para alerta de lixo */
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            margin-bottom: 25px;
+            display: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .success {
+            background-color: #def7ec;
+            color: #03543f;
+            border: 1px solid #bcf0da;
+        }
+
+        .error {
+            background-color: #fde8e8;
+            color: #9b1c1c;
+            border: 1px solid #fbd5d5;
         }
     </style>
 </head>
+
 <body>
 
-<nav class="navbar">
-    <button class="tab-btn active" onclick="switchTab('aba-denuncia')">Nova Denúncia</button>
-    <button class="tab
+    <div class="container">
+        <div class="tabs">
+            <button class="tab-btn active" onclick="openTab(event, 'cadastro')">Cadastrar Usuário</button>
+            <button class="tab-btn" onclick="openTab(event, 'denuncia')">Fazer Denúncia</button>
+            <button class="tab-btn" onclick="openTab(event, 'lista'); loadReports();">Ver Denúncias</button>
+        </div>
+
+        <div id="feedback-msg" class="message"></div>
+
+        <hr>
+
+        <!--aba do cadastro-->
+        <div id="cadastro" class="tab-content active">
+            <h2>Criar Nova Conta</h2>
+            <form id="form-signup">
+                <div class="form-group">
+                    <label for="sign-user">Nome de Usuário:</label>
+                    <input type="text" id="sign-user" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="sign-pass">Senha:</label>
+                    <input type="password" id="sign-pass" name="password" required>
+                </div>
+                <button type="submit">Cadastrar</button>
+            </form>
+        </div>
+
+        <!--aba da denúncia-->
+        <div id="denuncia" class="tab-content">
+            <h2>Registrar Denúncia</h2>
+            <form id="form-report">
+                <div class="auth-box">
+                    <strong>Autenticação Obrigatória:</strong>
+                    <div class="form-group">
+                        <label for="rep-user">Seu Usuário:</label>
+                        <input type="text" id="rep-user" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="rep-pass">Sua Senha:</label>
+                        <input type="password" id="rep-pass" name="password" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="rep-loc">Localização:</label>
+                    <input type="text" id="rep-loc" name="location" placeholder="Ex: Rua das Flores, 123" required>
+                </div>
+                <div class="form-group">
+                    <label for="rep-desc">Descrição do Ocorrido:</label>
+                    <textarea id="rep-desc" name="description" placeholder="Detalhes da denúncia..."
+                        required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="rep-date">Data (Opcional):</label>
+                    <input type="text" id="rep-date" name="date" placeholder="AAAA-MM-DD HH:MM:SS">
+                </div>
+                <div class="form-group">
+                    <label for="rep-file">Anexar Imagem/Arquivo:</label>
+                    <input type="file" id="rep-file" name="file" required>
+                </div>
+                <button type="submit">Enviar Denúncia</button>
+            </form>
+        </div>
+
+        <!--aba das denúncias registradas-->
+        <div id="lista" class="tab-content">
+            <div class="header-inline">
+                <h2>Denúncias Registradas</h2>
+                <button class="refresh-btn" onclick="loadReports()"
+                    style="width: auto; padding: 8px 15px;">Atualizar</button>
+            </div>
+            <div id="reports-container"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = "http://127.0.0.1:8000";
+
+        function openTab(evt, tabId) {
+            document.querySelectorAll(".tab-content").forEach(el => el.classList.remove("active"));
+            document.querySelectorAll(".tab-btn").forEach(el => el.classList.remove("active"));
+            document.getElementById(tabId).classList.add("active");
+            evt.currentTarget.classList.add("active");
+            hideMessage();
+        }
+
+        function showMessage(text, isSuccess) {
+            const msgDiv = document.getElementById("feedback-msg");
+            msgDiv.innerText = text;
+            msgDiv.className = `message ${isSuccess ? "success" : "error"}`;
+            msgDiv.style.display = "block";
+        }
+
+        function hideMessage() {
+            document.getElementById("feedback-msg").style.display = "none";
+        }
+
+        document.getElementById("form-signup").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            hideMessage();
+            const formData = new FormData(e.target);
+            try {
+                const response = await fetch(`${API_URL}/signup`, { method: "POST", body: formData });
+                const data = await response.json();
+                if (response.ok) {
+                    showMessage(data.message, true);
+                    e.target.reset();
+                } else {
+                    showMessage(data.detail || "Erro ao cadastrar.", false);
+                }
+            } catch (error) {
+                showMessage("Não foi possível conectar ao servidor backend.", false);
+            }
+        });
+
+        document.getElementById("form-report").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            hideMessage();
+            const formData = new FormData(e.target);
+            if (!formData.get("date")) formData.delete("date");
+            try {
+                const response = await fetch(`${API_URL}/report`, { method: "POST", body: formData });
+                const data = await response.json();
+                if (response.ok) {
+                    showMessage(data.message, true);
+                    e.target.reset();
+                } else {
+                    showMessage(data.detail || "Erro ao registrar denúncia.", false);
+                }
+            } catch (error) {
+                showMessage("Não foi possível conectar ao servidor backend.", false);
+            }
+        });
+
+        async function loadReports() {
+            const container = document.getElementById("reports-container");
+            container.innerHTML = "<p>Carregando denúncias...</p>";
+            try {
+                const response = await fetch(`${API_URL}/reports`);
+                const reports = await response.json();
+                container.innerHTML = "";
+                if (!reports || reports.length === 0) {
+                    container.innerHTML = "<p>Nenhuma denúncia registrada até o momento.</p>";
+                    return;
+                }
+                reports.reverse().forEach(report => {
+                    const card = document.createElement("div");
+                    card.className = "report-card";
+                    card.innerHTML = `
+                    <h4>Local: ${report.location}</h4>
+                    <div class="report-meta">Por: <strong>${report.user}</strong> | Em: ${report.date}</div>
+                    <p><strong>Descrição:</strong> ${report.description}</p>
+                    <div class="report-file-info">📁 Arquivo: <em>${report.image_name}</em></div>
+                `;
+                    container.appendChild(card);
+                });
+            } catch (error) {
+                container.innerHTML = "<p style='color: red;'>Erro ao carregar denúncias do servidor.</p>";
+            }
+        }
+    </script>
+
+</body>
+
+</html>
