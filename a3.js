@@ -1,9 +1,9 @@
-// 1. Nova função de cadastro SEM JSON (Usa FormData agora)
+// 1. função de cadastro 
 async function cadastrarUsuario() {
     const userInp = document.getElementById('reg-user').value;
     const passInp = document.getElementById('reg-pass').value;
 
-    // Criamos um FormData em vez de um objeto/JSON
+    // Criamos um FormData 
     const formData = new FormData();
     formData.append("username", userInp);
     formData.append("password", passInp);
@@ -11,7 +11,7 @@ async function cadastrarUsuario() {
     try {
         const resposta = await fetch(`${URL_API}/signup`, {
             method: "POST",
-            body: formData // Enviado como dados de formulário puro!
+            body: formData // Enviado como dados
         });
 
         const resultado = await resposta.json();
